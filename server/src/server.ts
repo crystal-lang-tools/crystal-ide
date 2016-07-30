@@ -1,7 +1,3 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
 'use strict';
 
 import {
@@ -23,18 +19,18 @@ let documents: TextDocuments = new TextDocuments();
 documents.listen(connection);
 
 // After the server has started the client sends an initilize request. The server receives
-// in the passed params the rootPath of the workspace plus the client capabilites. 
+// in the passed params the rootPath of the workspace plus the client capabilites.
 let workspaceRoot: string;
 connection.onInitialize((params): InitializeResult => {
 	workspaceRoot = params.rootPath;
 	return {
 		capabilities: {
 			// Tell the client that the server works in FULL text document sync mode
-			textDocumentSync: documents.syncKind,
+			textDocumentSync: documents.syncKind
 			// Tell the client that the server support code complete
-			completionProvider: {
-				resolveProvider: true
-			}
+			// completionProvider: {
+			// 	resolveProvider: true
+			// }
 		}
 	}
 });
@@ -42,12 +38,12 @@ connection.onInitialize((params): InitializeResult => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
-	validateTextDocument(change.document);
+	validateFile(change.document);
 });
 
 // The settings interface describe the server relevant settings part
 interface Settings {
-	languageServerExample: ExampleSettings;
+	languageCrystalServer: ExampleSettings;
 }
 
 // These are the example settings we defined in the client's package.json
@@ -56,50 +52,62 @@ interface ExampleSettings {
 	maxNumberOfProblems: number;
 }
 
+interface FileChanged {
+	uri: string;
+}
+
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems: number;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
 	let settings = <Settings>change.settings;
-	maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100;
+	maxNumberOfProblems = settings.languageCrystalServer.maxNumberOfProblems || 100;
 	// Revalidate any open text documents
-	documents.all().forEach(validateTextDocument);
+	documents.all().forEach(validateFile);
 });
 
-function validateTextDocument(textDocument: TextDocument): void {
+function fileUriToPath(uri: string) : string {
+	return uri.replace("file://", "");
+}
+
+function validateFile(file: FileChanged): void {
+	let exec = require('child_process').exec;
 	let diagnostics: Diagnostic[] = [];
-	let lines = textDocument.getText().split(/\r?\n/g);
-	let problems = 0;
-	for (var i = 0; i < lines.length && problems < maxNumberOfProblems; i++) {
-		let line = lines[i];
-		let index = line.indexOf('typescript');
-		if (index >= 0) {
-			problems++;
-			diagnostics.push({
-				severity: DiagnosticSeverity.Warning,
-				range: {
-					start: { line: i, character: index},
-					end: { line: i, character: index + 10 }
-				},
-				message: `${line.substr(index, 10)} should be spelled TypeScript`,
-				source: 'ex'
-			});
+	exec("crystal build --no-color --no-codegen -f json " + fileUriToPath(file.uri), (err, response) => {
+		if (response) {
+			let results = JSON.parse(response);
+			let length = Math.min(maxNumberOfProblems, results.length);
+			for (var problems = 0; problems < length; problems++) {
+				let problem = results[problems];
+				diagnostics.push({
+					severity: DiagnosticSeverity.Error,
+					range: {
+						start: { line: problem.line - 1, character: problem.column - 1 },
+						end: { line: problem.line - 1, character: (problem.column + (problem.size || 0) - 1) }
+					},
+					message: problem.message,
+					source: 'Crystal Language'
+				});
+			}
 		}
-	}
-	// Send the computed diagnostics to VSCode.
-	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+		// Send the computed diagnostics to VSCode.
+		connection.sendDiagnostics({ uri: file.uri, diagnostics });
+	})
 }
 
 connection.onDidChangeWatchedFiles((change) => {
 	// Monitored files have change in VSCode
-	connection.console.log('We recevied an file change event');
+	change.changes.forEach(validateFile);
 });
 
 
+/*
+TODO: Come back and do completions
+
 // This handler provides the initial list of the completion items.
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-	// The pass parameter contains the position of the text document in 
+	// The pass parameter contains the position of the text document in
 	// which code complete got requested. For the example we ignore this
 	// info and always provide the same completion items.
 	return [

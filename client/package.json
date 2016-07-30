@@ -1,33 +1,50 @@
 {
-	"name": "language-client-example",
-	"description": "VSCode part of a language server",
-	"author": "Microsoft Corporation",
+	"name": "crystal-ide",
+	"displayName": "Crystal IDE",
+	"description": "Syntax and error checking",
+	"author": "Ryan L. Bell",
+	"publisher": "goldenpointllc",
 	"license": "MIT",
 	"version": "0.0.1",
-	"publisher": "vscode",
+	"icon": "images/icon.png",
 	"engines": {
 		"vscode": "^0.10.10"
 	},
 	"categories": [
-		"Other"
+		"Linters",
+		"Languages"
 	],
 	"activationEvents": [
-		"onLanguage:plaintext"
+		"onLanguage:crystal"
 	],
 	"main": "./out/src/extension",
 	"contributes": {
+		"languages": [{
+			"id": "crystal",
+			"extensions": [
+				".cr"
+			],
+			"aliases": [
+				"Crystal"
+			]
+		}],
+		"grammars": [{
+			"language": "crystal",
+			"scopeName": "source.crystal",
+			"path": "./syntaxes/Crystal.tmLanguage"
+		}],
 		"configuration": {
 			"type": "object",
-			"title": "Example configuration",
+			"title": "Crystal IDE",
 			"properties": {
-				"languageServerExample.maxNumberOfProblems": {
+				"crystal-ide.maxNumberOfProblems": {
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				}
 			}
 		}
-	},	
+	},
 	"scripts": {
 		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
 		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./",

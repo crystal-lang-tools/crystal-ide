@@ -1,8 +1,9 @@
 {
-	"name": "language-server-example",
-	"description": "Example implementation of a language server in node.",
+	"name": "vscode-crystal-server",
+	"description": "Language server implementation for Crystal",
 	"version": "0.0.1",
-	"author": "Microsoft Corporation",
+	"author": "Ryan L. Bell",
+	"publisher": "goldenpointllc",
 	"license": "MIT",
 	"engines": {
 		"node": "*"

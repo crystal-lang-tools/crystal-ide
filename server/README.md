@@ -1,3 +1,3 @@
-#README
+# README
 
-This is a language server sample implementation in node
+A VSCode language server for Crystal
