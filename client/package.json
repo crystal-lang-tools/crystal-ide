@@ -7,6 +7,10 @@
 	"license": "MIT",
 	"version": "0.0.1",
 	"icon": "images/icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kofno/crystal-ide"
+	},
 	"engines": {
 		"vscode": "^0.10.10"
 	},
