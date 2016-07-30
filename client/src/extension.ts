@@ -19,14 +19,17 @@ export function activate(context: ExtensionContext) {
 		debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
 	}
 
+	// Try native server
+	// serverOptions = { command: "crystal", args: ["run", "/Users/ryan/Projects/scry/src/scry.cr"] };
+
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
-		// Register the server for plain text documents
+		// Register the server for Crystal source files
 		documentSelector: ['crystal'],
 		synchronize: {
 			// Synchronize the setting section to the server
 			configurationSection: 'crystal-ide',
-			// Notify the server about file changes to '.clientrc files contain in the workspace
+			// Notify the server about file changes to crystal files
 			fileEvents: workspace.createFileSystemWatcher('**/*.cr')
 		}
 	}
