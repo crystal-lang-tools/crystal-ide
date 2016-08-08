@@ -30,7 +30,8 @@
 			],
 			"aliases": [
 				"Crystal"
-			]
+			],
+			"configuration": "./crystal-ide.configuration.json"
 		}],
 		"grammars": [{
 			"language": "crystal",
