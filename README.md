@@ -34,7 +34,7 @@ The server is currently implemented in Node and shells out to the compiler.
 To support all of these features, we will be re-implementing the server in
 Crystal.
 
-* Re-Build jsonrpc server in Crystal! \o/
+* Integrate [Scry](https://github.com/kofno/scry) as the server! \o/
 
 ## Contributing
 
