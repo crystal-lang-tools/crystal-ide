@@ -4,23 +4,42 @@ import * as path from 'path';
 
 import { workspace, Disposable, ExtensionContext } from 'vscode';
 import { LanguageClient, LanguageClientOptions, SettingMonitor, ServerOptions, TransportKind } from 'vscode-languageclient';
+import os = require('os');
+
+let ideConfig = workspace.getConfiguration("crystal-ide");
 
 export function activate(context: ExtensionContext) {
 
-	// The server is implemented in node
-	let serverModule = context.asAbsolutePath(path.join('server', 'server.js'));
-	// The debug options for the server
-	let debugOptions = { execArgv: ["--nolazy", "--debug=6004"] };
+	let serverOptions : ServerOptions;
 
-	// If the extension is launched in debug mode then the debug server options are used
-	// Otherwise the run options are used
-	let serverOptions: ServerOptions = {
-		run : { module: serverModule, transport: TransportKind.ipc },
-		debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
+	if (ideConfig["backend"] == "scry") {
+		let arch : string = os.arch();
+		let platform : string = os.platform();
+
+		let command : string = context.asAbsolutePath(path.join("server", platform, arch, "scry"));
+		serverOptions = { command: command, args: [] };
 	}
+	else if (ideConfig["backend"] == "custom") {
+		let command : string = ideConfig["customCommand"];
+		let args : [string] = ideConfig["customCommandArgs"] || [];
 
-	// Try native server
-	// serverOptions = { command: "crystal", args: ["run", "/Users/ryan/Projects/scry/src/scry.cr"] };
+		serverOptions = { command: command, args: args}
+
+	} else {
+
+		// The server is implemented in node
+		let serverModule = context.asAbsolutePath(path.join('server', 'server.js'));
+		// The debug options for the server
+		let debugOptions = { execArgv: ["--nolazy", "--debug=6004"] };
+
+		// If the extension is launched in debug mode then the debug server options are used
+		// Otherwise the run options are used
+		serverOptions = {
+			run : { module: serverModule, transport: TransportKind.ipc },
+			debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
+		}
+
+	}
 
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {

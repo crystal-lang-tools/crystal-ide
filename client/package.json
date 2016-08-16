@@ -46,6 +46,26 @@
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
+				},
+				"crystal-ide.backend": {
+					"type": "string",
+					"default": "default",
+					"description": "Controls which language backend to use: scry, custom, or default"
+				},
+				"crystal-ide.customCommand": {
+					"type": "string",
+					"default": "crystal",
+					"description": "For a custom backend, the command to execute when launching the server"
+				},
+				"crystal-ide.customCommandArgs": {
+					"type": "string",
+					"default": ["run", "src/scry"],
+					"description": "For a custom backend, the arguments passed to the command"
+				},
+				"crystal-ide.logLevel": {
+					"type": "string",
+					"default": "info",
+					"description": "How much logging is done by the backend: debug, info, warn, error, fatal"
 				}
 			}
 		}
