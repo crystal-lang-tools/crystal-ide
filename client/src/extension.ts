@@ -16,7 +16,7 @@ export function activate(context: ExtensionContext) {
 		let arch : string = os.arch();
 		let platform : string = os.platform();
 
-		let command : string = context.asAbsolutePath(path.join("server", platform, arch, "scry"));
+		let command : string = context.asAbsolutePath(path.join("scry", platform, arch, "scry"));
 		serverOptions = { command: command, args: [] };
 	}
 	else if (ideConfig["backend"] == "custom") {
