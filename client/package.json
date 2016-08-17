@@ -3,9 +3,9 @@
 	"displayName": "Crystal IDE",
 	"description": "Syntax and error checking",
 	"author": "Ryan L. Bell",
-	"publisher": "goldenpointllc",
+	"publisher": "kofno",
 	"license": "MIT",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"icon": "images/icon.png",
 	"repository": {
 		"type": "git",

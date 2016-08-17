@@ -31,11 +31,14 @@ The goal is too implement all of the currently supported Language Server Feature
  * Rename: project-wide rename of a symbol.
 
 The server is currently implemented in Node and shells out to the compiler.
-To support all of these features, we will be re-implementing the server in
-Crystal.
 
-* Integrate [Scry](https://github.com/kofno/scry) as the server! \o/
+An experimental server ([Scry](https://github.com/kofno/scry), written in Crystal)
+is also available on 64bit Linux and OS X. To use Scry, change the following
+configuration:
 
+```
+"crystal-ide.backend": "scry"
+```
 ## Contributing
 
 1. Fork it ( https://github.com/kofno/crystal-ide/fork )
