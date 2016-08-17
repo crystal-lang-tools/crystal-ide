@@ -33,12 +33,18 @@ The goal is too implement all of the currently supported Language Server Feature
 The server is currently implemented in Node and shells out to the compiler.
 
 An experimental server ([Scry](https://github.com/kofno/scry), written in Crystal)
-is also available on 64bit Linux and OS X. To use Scry, change the following
-configuration:
+is also available on 64bit Linux and OS X.
+
+To use Scry, download the appropriate binary and configure your settings for
+for a custom backend:
 
 ```
-"crystal-ide.backend": "scry"
+"crystal-ide.backend": "custom",
+"crystal-ide.customCommand": "/path/to/scry"
 ```
+
+[Scry Releases](https://github.com/kofno/scry/releases)
+
 ## Contributing
 
 1. Fork it ( https://github.com/kofno/crystal-ide/fork )
