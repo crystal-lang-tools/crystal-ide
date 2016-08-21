@@ -30,6 +30,8 @@ The goal is too implement all of the currently supported Language Server Feature
  * Document Formatting: this includes formatting of whole documents, document ranges and formatting on type.
  * Rename: project-wide rename of a symbol.
 
+## Using Scry
+
 The server is currently implemented in Node and shells out to the compiler.
 
 An experimental server ([Scry](https://github.com/kofno/scry), written in Crystal)
