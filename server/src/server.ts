@@ -74,7 +74,7 @@ function fileUriToPath(uri: string) : string {
 function validateFile(file: FileChanged): void {
 	let exec = require('child_process').exec;
 	let diagnostics: Diagnostic[] = [];
-	exec("crystal build --no-color --no-codegen -f json " + fileUriToPath(file.uri), (err, response) => {
+	exec("crystal build --no-color --no-codegen -f json --release " + fileUriToPath(file.uri), (err, response) => {
 		if (response) {
 			let results = JSON.parse(response);
 			let length = Math.min(maxNumberOfProblems, results.length);
