@@ -58,7 +58,10 @@
 					"description": "For a custom backend, the command to execute when launching the server"
 				},
 				"crystal-ide.customCommandArgs": {
-					"type": "string",
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
 					"default": ["run", "src/scry"],
 					"description": "For a custom backend, the arguments passed to the command"
 				},
