@@ -5,7 +5,7 @@ Visual Studio Code.
 
 Crystal IDE is implemented using the Language Server Protocol.
 
-[A blog post about Language Server Protocol](https://code.visualstudio.com/blogs#_any-language-any-tool)
+[A blog post about Language Server Protocol](https://code.visualstudio.com/blogs/2016/06/27/common-language-protocol)
 
 
 ## Dependencies
